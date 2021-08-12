@@ -1,11 +1,15 @@
 {
-  "$schema": "https://deno.land/x/denon@2.4.7/schema.json",
+  "$schema": "https://deno.land/x/denon/schema.json",
   "scripts": {
     "start": {
       "cmd": "deno run app.ts",
+      "desc": "run server",
       "allow": [
-        "net"
-      ]
+        "net",
+        "env",
+        "read"
+      ],
+      "unstable":true
     }
   }
 }
