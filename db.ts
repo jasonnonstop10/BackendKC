@@ -1,8 +1,10 @@
-import { MongoClient } from "./deps.ts";
+import { config, MongoClient } from "./deps.ts";
+await config({ export: true });
+
 const cilent = new MongoClient();
 await cilent.connect(
-  "mongodb+srv://admin:KeV0proZb0kSLDZY@kasetchana.5fofn.mongodb.net/kasetchana?authMechanism=SCRAM-SHA-1",
+  Deno.env.get("DB_URL"),
 );
 console.log("database connecting");
 const db = cilent.database("kasetchana");
-export { db };
+export default db;

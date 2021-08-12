@@ -7,7 +7,9 @@
       "allow": [
         "net",
         "env",
-        "read"
+        "read",
+        "write",
+        "plugin"
       ],
       "unstable":true
     }
