@@ -1,10 +1,18 @@
 import { Router } from "../../deps.ts";
-import { signUp } from "../controller/authController.ts";
+import {
+  logIn,
+  logOut,
+  signUp,
+  updateUser,
+} from "../controller/authController.ts";
 const router = new Router();
 
 router
   .get("/", (ctx) => {
     ctx.response.body = "Hello World!";
   })
-  .get("/signup", signUp);
+  .post("/signup", signUp)
+  .post("/login", logIn)
+  .put("/update", updateUser)
+  .get("/logout", logOut);
 export default router;
