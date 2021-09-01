@@ -3,7 +3,7 @@ await config({ export: true });
 
 const cilent = new MongoClient();
 await cilent.connect(
-  Deno.env.get("DB_URL"),
+  config().DB_URL,
 );
 console.log("database connecting");
 const db = cilent.database("kasetchana");

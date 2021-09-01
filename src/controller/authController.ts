@@ -10,6 +10,7 @@ export const signUp = async (ctx: Context) => {
       region,
     });
     ctx.response.status = 200;
+    ctx.response.body = { user, email, password, name, region };
   } catch (error) {
     ctx.response.status = 500;
     ctx.response.body = { msg: error.message };
