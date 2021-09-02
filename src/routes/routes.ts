@@ -6,7 +6,6 @@ import {
   updateUser,
 } from "../controller/authController.ts";
 const router = new Router();
-
 router
   .get("/", (ctx) => {
     ctx.response.body = "Hello World!";

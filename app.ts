@@ -2,7 +2,9 @@ import { Application } from "./deps.ts";
 import router from "./src/routes/routes.ts";
 const port: number = 3000;
 const app = new Application();
-
+app.addEventListener("error", (evt) => {
+  console.log(evt.error);
+});
 app.use(router.routes());
 app.use(router.allowedMethods());
 
