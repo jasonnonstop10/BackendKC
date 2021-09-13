@@ -1,1 +1,1 @@
-web: denon start
+web: deno run --allow-net --allow-env --allow-read --allow-write --allow-run --unstable app.ts --port=${PORT}
