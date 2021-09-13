@@ -5,15 +5,17 @@ export const signUp = async (ctx: Context) => {
   let { email, password, name, region } = await ctx.request.body().value;
   const salt = bcrypt.genSaltSync(10);
   const hashpassword = await bcrypt.hash(password, salt);
-  const user = await User.insertOne({
+  const user: any = {
     email,
     password: hashpassword,
     name,
     region,
     created_at: new Date(),
     update_at: new Date(),
-  });
+  };
+  const id = await User.insertOne(user);
   ctx.response.status = 200;
+  ctx.response.body = user;
 };
 export const logIn = async (ctx: Context) => {
   const { _id, email, password } = await ctx.request.body().value;

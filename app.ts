@@ -1,7 +1,7 @@
 import { Application, parse } from "./deps.ts";
 import router from "./src/routes/routes.ts";
 const { args } = Deno;
-const DEFAULT_PORT = 8000;
+const DEFAULT_PORT = 8080;
 const argPort = parse(args).port;
 
 const app = new Application();
