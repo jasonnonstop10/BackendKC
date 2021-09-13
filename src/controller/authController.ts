@@ -1,11 +1,11 @@
 import { bcrypt, Context, objectId } from "../../deps.ts";
 import { User } from "../model/user.model.ts";
+
 export const signUp = async (ctx: Context) => {
-  let { _id, email, password, name, region } = await ctx.request.body().value;
+  let { email, password, name, region } = await ctx.request.body().value;
   const salt = bcrypt.genSaltSync(10);
   const hashpassword = await bcrypt.hash(password, salt);
   const user = await User.insertOne({
-    _id: objectId(_id),
     email,
     password: hashpassword,
     name,
@@ -14,7 +14,6 @@ export const signUp = async (ctx: Context) => {
     update_at: new Date(),
   });
   ctx.response.status = 200;
-  ctx.response.body = { email, password, name, region };
 };
 export const logIn = async (ctx: Context) => {
   const { _id, email, password } = await ctx.request.body().value;
