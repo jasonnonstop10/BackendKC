@@ -11,5 +11,5 @@ app.addEventListener("error", (evt) => {
 app.use(router.routes());
 app.use(router.allowedMethods());
 
+console.log("Example app listening at http://localhost:8000");
 await app.listen({ port: argPort ?? DEFAULT_PORT });
-console.log(`Example app listening at http://localhost:8000`);
