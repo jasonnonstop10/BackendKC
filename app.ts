@@ -12,4 +12,4 @@ app.use(router.routes());
 app.use(router.allowedMethods());
 
 await app.listen({ port: argPort ?? DEFAULT_PORT });
-console.log(`Example app listening at http://localhost:${DEFAULT_PORT}`);
+console.log(`Example app listening at http://localhost:8000`);

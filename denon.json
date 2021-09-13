@@ -9,7 +9,7 @@
         "env",
         "read",
         "write",
-        "plugin"
+        "run"
       ],
       "unstable":true
     }
