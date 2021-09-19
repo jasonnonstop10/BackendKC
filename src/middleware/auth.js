@@ -1,16 +1,17 @@
 require("dotenv").config();
 const jwt = require("jsonwebtoken");
+const { CostExplorer } = require("aws-sdk");
 
-exports.header = (req, res, next) => {
+exports.authMiddleware = (req, res, next) => {
   try {
-    const authheader = req.get("Authorization");
-    const token = authheader.split(" ")[1];
+    const authHeader = req.get("Authorization");
+    const token = authHeader.split(" ")[1];
     console.log(token);
-    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+    jwt.verify(token, process.env.Secret_Key, (err, user) => {
       if (err) {
         res.sendStatus(403);
       } else {
-        const userInfo = decoded;
+        const userInfo = user;
         req.userId = userInfo._id;
         req.email = userInfo.email;
       }

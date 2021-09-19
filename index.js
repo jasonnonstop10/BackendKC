@@ -5,7 +5,6 @@ const connectToDatabase = require("./db.js");
 const app = express();
 const port = process.env.PORT || 3000;
 const cors = require("cors");
-const userModel = require("./src/models/user.model.js");
 app.use(cors());
 const connectMongo = async (req, res, next) => {
   try {

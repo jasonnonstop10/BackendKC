@@ -5,8 +5,9 @@ const users = require("../models/user.model");
 const mongoose = require("mongoose");
 const { validationResult } = require("express-validator");
 const { json } = require("express");
+const { uploadManyFile } = require("../urils/s3");
 // login
-exports.login = async (req, res) => {
+exports.login = async (req, res, next) => {
   let { email, password } = req.body;
   email = email.toLowerCase();
   const user = await users.findOne({ email });
@@ -20,7 +21,7 @@ exports.login = async (req, res) => {
   if (!isMatch) {
     throw {
       message: "Incorrect password",
-      status: 401,
+      status: 404,
     };
   }
   const token = jwt.sign(
@@ -32,7 +33,7 @@ exports.login = async (req, res) => {
 };
 
 // sign up
-exports.signup = async (req, res) => {
+exports.signup = async (req, res, next) => {
   let { email, password, username, name, pictureurl } = req.body;
   email = email.toLowerCase();
   const hasEmail = users.findOne({ email: email });
@@ -69,4 +70,11 @@ exports.signup = async (req, res) => {
   );
   console.log(res);
   res.status(200).json({ result, token });
+};
+//post image
+exports.postImage = async (req, res, next) => {
+  const { userId, files } = req;
+  const result = await uploadManyFile(files, userId, "userResult");
+  console.log(result);
+  res.send(result);
 };
