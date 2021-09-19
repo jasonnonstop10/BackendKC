@@ -1,9 +1,11 @@
 require("dotenv").config();
 const express = require("express");
+const userRoute = require("./src/routes/auth");
 const connectToDatabase = require("./db.js");
 const app = express();
 const port = process.env.PORT || 3000;
 const cors = require("cors");
+const userModel = require("./src/models/user.model.js");
 app.use(cors());
 const connectMongo = async (req, res, next) => {
   try {
@@ -19,6 +21,7 @@ app.use(connectMongo);
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
+app.use(userRoute);
 app.use((err, req, res, next) => {
   console.log("ERROR: ", err);
   res.status(err.status || 500).json({
