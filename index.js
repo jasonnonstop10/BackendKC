@@ -3,9 +3,10 @@ const express = require("express");
 const connectToDatabase = require("./db.js");
 const app = express();
 const port = process.env.PORT || 3000;
+const cors = require("cors");
+app.use(cors());
 const connectMongo = async (req, res, next) => {
   try {
-    console.log("gg");
     await connectToDatabase();
     next();
   } catch (err) {
@@ -18,7 +19,15 @@ app.use(connectMongo);
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
-
+app.use((err, req, res, next) => {
+  console.log("ERROR: ", err);
+  res.status(err.status || 500).json({
+    message: "ERROR SYSTEM",
+    error: err.message,
+    status: err.status,
+    data: err.data,
+  });
+});
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });
