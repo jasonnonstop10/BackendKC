@@ -19,5 +19,5 @@ router.post(
   multer({ dest: "uploads/" }).array("photo", 10),
   tryCatch(authController.postImage)
 );
-
+router.put("/forgetpassword", authController.forgetPassword);
 module.exports = router;

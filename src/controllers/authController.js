@@ -6,6 +6,7 @@ const mongoose = require("mongoose");
 const { validationResult } = require("express-validator");
 const { json } = require("express");
 const { uploadManyFile } = require("../urils/s3");
+const { sendEmail } = require("../urils/sendEmail");
 // login
 exports.login = async (req, res, next) => {
   let { email, password } = req.body;
@@ -77,4 +78,19 @@ exports.postImage = async (req, res, next) => {
   const result = await uploadManyFile(files, userId, "userResult");
   console.log(result);
   res.send(result);
+};
+// forget password
+exports.forgetPassword = async (req, res, next) => {
+  const { email } = req.body;
+  const user = await users.findOne({ email: email });
+  if (user) {
+    // genarate Random Password
+    const password = Math.random().toString(36).substring(7);
+    const hashedPassword = await bcrypt.hash(password, 10);
+    await users.updateOne({ email: email }, { password: hashedPassword });
+    console.log(password);
+  } else {
+    err.massage = "User not found";
+    err.status = 404;
+  }
 };
