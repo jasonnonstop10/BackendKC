@@ -88,7 +88,7 @@ exports.forgetPassword = async (req, res, next) => {
     const password = Math.random().toString(36).substring(7);
     const hashedPassword = await bcrypt.hash(password, 10);
     await users.updateOne({ email: email }, { password: hashedPassword });
-    console.log(password);
+    res.send(password);
   } else {
     err.massage = "User not found";
     err.status = 404;
