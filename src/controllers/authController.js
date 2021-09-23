@@ -35,7 +35,7 @@ exports.login = async (req, res, next) => {
 
 // sign up
 exports.signup = async (req, res, next) => {
-  let { email, password, username, name, pictureurl } = req.body;
+  let { email, password, name, region, pictureurl } = req.body;
   email = email.toLowerCase();
   const hasEmail = users.findOne({ email: email });
   if (!hasEmail) {
@@ -57,9 +57,9 @@ exports.signup = async (req, res, next) => {
     _id: req._id ? req._id : mongoose.Types.ObjectId(),
     email: emaillowercase,
     password: hashedPassword,
-    username: username,
-    name: name,
-    pictureurl: pictureurl,
+    name,
+    region,
+    pictureurl,
   });
   const token = jwt.sign(
     {
@@ -84,7 +84,6 @@ exports.forgetPassword = async (req, res, next) => {
   const { email } = req.body;
   const user = await users.findOne({ email: email });
   if (user) {
-    // genarate Random Password
     const password = Math.random().toString(36).substring(7);
     const hashedPassword = await bcrypt.hash(password, 10);
     await users.updateOne({ email: email }, { password: hashedPassword });

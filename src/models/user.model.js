@@ -20,6 +20,9 @@ const user = new Schema(
       type: String,
       default: "GG",
     },
+    region: {
+      type: String,
+    },
     deleteAt: {
       type: Date,
     },

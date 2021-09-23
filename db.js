@@ -17,6 +17,8 @@ module.exports = async function connectToDatabase() {
   db = await mongoose.connect(process.env.DB_CONNECTION, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
+    useFindAndModify: false,
+    useCreateIndex: true,
   });
   isConnected = db.connections[0].readyState;
   return db;
