@@ -2,6 +2,8 @@ require("dotenv").config();
 const express = require("express");
 const userRoute = require("./src/routes/auth");
 const weatherRoute = require("./src/routes/weather");
+const kasetplanRoute = require("./src/routes/kasetplan");
+const kasetprice = require("./src/routes/kasetprice");
 const connectToDatabase = require("./db.js");
 const app = express();
 const port = process.env.PORT || 3000;
@@ -23,6 +25,7 @@ app.get("/", (req, res) => {
 });
 app.use(userRoute);
 app.use(weatherRoute);
+app.use(kasetprice);
 app.use((err, req, res, next) => {
   console.log("ERROR: ", err);
   res.status(err.status || 500).json({

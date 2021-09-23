@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
-const user = new Schema(
+const kasetplan = new Schema(
   {
     name: {
       type: String,
@@ -16,6 +16,7 @@ const user = new Schema(
     longitude: {
       type: Number,
     },
+    uid: { type: mongoose.ObjectId },
     deleteAt: {
       type: Date,
     },
@@ -31,4 +32,4 @@ const user = new Schema(
   }
 );
 
-module.exports = mongoose.model("user", user);
+module.exports = mongoose.model("kasetplan", kasetplan);
