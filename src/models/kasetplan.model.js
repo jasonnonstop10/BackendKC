@@ -4,6 +4,9 @@ const Schema = mongoose.Schema;
 
 const kasetplan = new Schema(
   {
+    no: {
+      type: Number,
+    },
     name: {
       type: String,
     },

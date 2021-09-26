@@ -1,0 +1,4 @@
+{
+    "appService.deploySubpath": ".",
+    "appService.defaultWebAppToDeploy": "/subscriptions/25ec866b-7aba-4397-b56a-ab7063f884c8/resourceGroups/appsvc_linux_centralus/providers/Microsoft.Web/sites/kasetchana"
+}

@@ -28,7 +28,7 @@ exports.login = async (req, res, next) => {
   const token = jwt.sign(
     { _id: user._id, email: user.email },
     process.env.Secret_Key,
-    { expiresIn: "1d" }
+    { expiresIn: "30d" }
   );
   res.status(200).json({ result: user, token });
 };
@@ -67,7 +67,7 @@ exports.signup = async (req, res, next) => {
       email: result.emait,
     },
     process.env.Secret_Key,
-    { expiresIn: "1d" }
+    { expiresIn: "30d" }
   );
   console.log(res);
   res.status(200).json({ result, token });
