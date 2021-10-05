@@ -4,6 +4,7 @@ const userRoute = require("./src/routes/auth");
 const weatherRoute = require("./src/routes/weather");
 const kasetplanRoute = require("./src/routes/kasetplan");
 const kasetpriceRoute = require("./src/routes/kasetprice");
+const productRoute = require("./src/routes/product");
 const connectToDatabase = require("./db.js");
 const app = express();
 const port = process.env.PORT || 3000;
@@ -27,6 +28,7 @@ app.use(userRoute);
 app.use(weatherRoute);
 app.use(kasetplanRoute);
 app.use(kasetpriceRoute);
+app.use(productRoute);
 app.use((err, req, res, next) => {
   console.log("ERROR: ", err);
   res.status(err.status || 500).json({
