@@ -7,6 +7,7 @@ const { validationResult } = require("express-validator");
 const { json } = require("express");
 const { uploadManyFile } = require("../urils/s3");
 const { sendEmail } = require("../urils/sendEmail");
+const valid_id = mongoose.Types.ObjectId.isValid;
 // login
 exports.login = async (req, res, next) => {
   let { email, password } = req.body;
@@ -79,17 +80,29 @@ exports.postImage = async (req, res, next) => {
   console.log(result);
   res.send(result);
 };
-// forget password
-exports.forgetPassword = async (req, res, next) => {
-  const { email } = req.body;
-  const user = await users.findOne({ email: email });
-  if (user) {
-    const password = Math.random().toString(36).substring(7);
-    const hashedPassword = await bcrypt.hash(password, 10);
-    await users.updateOne({ email: email }, { password: hashedPassword });
-    res.send(password);
-  } else {
-    err.massage = "User not found";
-    err.status = 404;
-  }
+//update user
+exports.updateUser = async (req, res, next) => {
+  const { userId } = req;
+  const { name, region, pictureurl } = req.body;
+  const result = await users.findOneAndUpdate(
+    { _id: userId },
+    { name, region, pictureurl },
+    { new: true, omitUndefined: true }
+  );
+  console.log(req);
+  res.send(result);
+};
+//delete user
+exports.deleteUser = async (req, res, next) => {
+  const { userId } = req;
+  const result = await users.findOneAndUpdate(
+    { _id: userId },
+    {
+      delete_at: new Date(),
+      isDeleted: true,
+    },
+    { new: true }
+  );
+  console.log(result);
+  res.send(result);
 };
