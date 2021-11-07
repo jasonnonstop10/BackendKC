@@ -4,8 +4,13 @@ const router = express.Router();
 const auth = require("../middleware/auth");
 const { tryCatch } = require("../middleware/tryCatchController");
 router.get(
-  "/kasetprice",
+  "/kasetpriceshow",
   auth.authMiddleware,
-  tryCatch(kasetpriceController.getkasetprice)
+  tryCatch(kasetpriceController.getkasetpriceshow)
+);
+router.post(
+  "/kasetpricesearch",
+  auth.authMiddleware,
+  tryCatch(kasetpriceController.getkasetpricesearch)
 );
 module.exports = router;
