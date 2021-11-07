@@ -7,9 +7,17 @@ module.exports.getWeather = async (input) => {
     const user = await userAuth.findOne({ _id: input, isDeleted: false });
     let region = "";
     region = user.region;
-    const regionJS = await axios.get(
-      `http://api.openweathermap.org/data/2.5/weather?q=${region}&appid=f6e0fd6155de2dd25d21739c7f998724`
-    );
+
+    var options = {
+      method: "GET",
+      url: "https://yahoo-weather5.p.rapidapi.com/weather",
+      params: { location: region, format: "json", u: "f" },
+      headers: {
+        "x-rapidapi-host": "yahoo-weather5.p.rapidapi.com",
+        "x-rapidapi-key": "728f09f011mshaffebf4849d24fdp17df7ajsn51bb0e5660d6",
+      },
+    };
+    const regionJS = await axios.request(options);
     return regionJS.data;
   } else {
     throw {
