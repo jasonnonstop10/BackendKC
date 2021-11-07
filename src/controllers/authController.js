@@ -2,11 +2,11 @@ require("dotenv").config();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const users = require("../models/user.model");
+const sendEmail = require("../functions/sendemail");
 const mongoose = require("mongoose");
 const { validationResult } = require("express-validator");
 const { json } = require("express");
 const { uploadManyFile } = require("../urils/s3");
-const { sendEmail } = require("../urils/sendEmail");
 const valid_id = mongoose.Types.ObjectId.isValid;
 // login
 exports.login = async (req, res, next) => {
@@ -104,5 +104,27 @@ exports.deleteUser = async (req, res, next) => {
     { new: true }
   );
   console.log(result);
+  res.send(result);
+};
+//reset password and send email
+exports.forgetPassword = async (req, res, next) => {
+  const { email } = req.body;
+  const user = await users.findOne({ email: email.toLowerCase() });
+  if (!user) {
+    throw {
+      message: "User not found",
+      status: 404,
+    };
+  }
+  //random password
+  const resetpassword = Math.random().toString(36).substring(7);
+  const hashedPassword = await bcrypt.hash(resetpassword, 10);
+  const result = await users.findOneAndUpdate(
+    { email: email.toLowerCase() },
+    { password: hashedPassword },
+    { new: true }
+  );
+  //send email
+  const seademail = await sendEmail(email, resetpassword);
   res.send(result);
 };

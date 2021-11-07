@@ -25,5 +25,5 @@ router.delete(
   auth.authMiddleware,
   tryCatch(authController.deleteUser)
 );
-
+router.post("/forget", tryCatch(authController.forgetPassword));
 module.exports = router;
