@@ -2,7 +2,8 @@ const axios = require("axios");
 var FormData = require("form-data");
 const product = require("../models/product.model");
 const mongoose = require("mongoose");
-const CircularJSON = require("circular-json");
+const { stringify } = require("flatted");
+const moment = require("moment");
 const https = require("https");
 require("dotenv").config();
 
@@ -34,23 +35,24 @@ module.exports.getkasetpricesearch = async (input) => {
     httpsAgent: agent,
   });
   const data = search.data[0].product_id;
-  //current date format Integer YYYY-MM-DD
-  //7 dey ago of current date format YYYY-MM-DD and zerofill
-  const date_7ago = new Date(date.setDate(date.getDate() - 7));
-  const year_7ago = date_7ago.getFullYear();
-  const month_7ago = date_7ago.getMonth() + 1;
-  const day_7ago = date_7ago.getDate();
-  const date_7ago_now = year_7ago + "-" + month_7ago + "-" + day_7ago;
+  //current date format Integer YYYY-MM-DD using moment
+  const date = moment().format("YYYY-MM-DD");
+  //7 dey ago of current date format Integer YYYY-MM-DD using moment
+  const date7 = moment().subtract(7, "days").format("YYYY-MM-DD");
   const kasetprice = await axios.get(
-    "https://dataapi.moc.go.th/gis-product-price",
+    "https://dataapi.moc.go.th/gis-product-prices",
     {
       params: {
         product_id: data,
-        from_date: date_7ago_now,
-        to_date: date_now,
+        from_date: date7,
+        to_date: date,
       },
       httpsAgent: agent,
     }
   );
-  console.log(kasetprice);
+  //Converting circular structure to JSON\n    --> starting at object with constructor 'TLSSocket'\n    |     property '_httpMessage' -> object with constructor 'ClientRequest'\n    --- property 'socket' closes the circle
+  const kasetpricejson = stringify(kasetprice.data);
+  //obj to json
+  const kasetpricejson2 = JSON.parse(kasetpricejson);
+  return kasetpricejson2;
 };
