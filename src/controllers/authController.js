@@ -80,6 +80,16 @@ exports.postImage = async (req, res, next) => {
   console.log(result);
   res.send(result);
 };
+//findone user
+exports.findOneUser = async (req, res, next) => {
+  const { userId } = req;
+  const { email } = req.body;
+  const result = await users.findOne({
+    _id: userId,
+    email: email.toLowerCase(),
+  });
+  res.send(result);
+};
 //update user
 exports.updateUser = async (req, res, next) => {
   const { userId } = req;
@@ -126,5 +136,5 @@ exports.forgetPassword = async (req, res, next) => {
   );
   //send email
   const seademail = await sendEmail(email, resetpassword);
-  res.send(result);
+  res.send(seademail);
 };
