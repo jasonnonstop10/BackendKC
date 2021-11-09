@@ -80,15 +80,17 @@ exports.postImage = async (req, res, next) => {
   console.log(result);
   res.send(result);
 };
-//findone user
+//findoneuser with email and use qurry params
 exports.findOneUser = async (req, res, next) => {
-  const { userId } = req;
-  const { email } = req.body;
-  const result = await users.findOne({
-    _id: userId,
-    email: email.toLowerCase(),
-  });
-  res.send(result);
+  const { email } = req.query;
+  const user = await users.findOne({ email: email.toLowerCase() });
+  if (!user) {
+    throw {
+      message: "User not found",
+      status: 404,
+    };
+  }
+  res.send(user);
 };
 //update user
 exports.updateUser = async (req, res, next) => {
