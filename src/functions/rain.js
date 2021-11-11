@@ -1,7 +1,4 @@
 const axios = require("axios");
-const mongoose = require("mongoose");
-const valid_id = mongoose.Types.ObjectId.isValid;
-const { stringify } = require("flatted");
 
 module.exports.getRain = async (input) => {
   const kasetrain = await axios

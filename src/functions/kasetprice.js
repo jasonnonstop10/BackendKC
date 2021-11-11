@@ -1,8 +1,5 @@
 const axios = require("axios");
 var FormData = require("form-data");
-const product = require("../models/product.model");
-const mongoose = require("mongoose");
-const { stringify } = require("flatted");
 const moment = require("moment");
 const https = require("https");
 require("dotenv").config();
