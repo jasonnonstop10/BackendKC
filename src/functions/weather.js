@@ -11,7 +11,7 @@ module.exports.getWeather = async (input) => {
     var options = {
       method: "GET",
       url: "https://yahoo-weather5.p.rapidapi.com/weather",
-      params: { location: region, format: "json", u: "c" },
+      params: { location: region, format: "json", u: "f" },
       headers: {
         "x-rapidapi-host": "yahoo-weather5.p.rapidapi.com",
         "x-rapidapi-key": "728f09f011mshaffebf4849d24fdp17df7ajsn51bb0e5660d6",

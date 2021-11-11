@@ -18,9 +18,9 @@ module.exports.postPlant = async (input, userId) => {
     throw new Error("Invalid user id");
   }
 };
-module.exports.getPlant = async (id) => {
-  if (valid_id(id)) {
-    return await plantModel.findById(id);
+module.exports.getPlant = async (user_id) => {
+  if (valid_id(user_id)) {
+    return await plantModel.find();
   } else {
     throw new Error("Invalid plant id");
   }
