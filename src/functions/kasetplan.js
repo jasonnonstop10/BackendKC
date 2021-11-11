@@ -3,13 +3,12 @@ const mongoose = require("mongoose");
 const valid_id = mongoose.Types.ObjectId.isValid;
 
 module.exports.postKasetplan = async (input, user_id) => {
-  const { no, name, price, latitude, longitude } = input;
+  const { no, geojson, asset, esimate } = input;
   return await kasetplanModel.create({
     no,
-    name,
-    price,
-    latitude,
-    longitude,
+    geojson,
+    asset,
+    esimate,
     u_id: user_id,
   });
 };
@@ -25,11 +24,11 @@ module.exports.getKasetplan = async (user_id) => {
   }
 };
 module.exports.putKasetplan = async (payload, userId) => {
-  const { no, name, price, latitude, longitude } = payload;
+  const { no, geojson, asset, esimate } = payload;
   if (valid_id(userId)) {
     const kasetplan = await kasetplanModel.findOneAndUpdate(
       { no: no, u_id: userId },
-      { name, price, latitude, longitude, updatedAt: new Date() },
+      { geojson, asset, esimate, updatedAt: new Date() },
       { new: true }
     );
     console.log(kasetplan);

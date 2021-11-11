@@ -6,6 +6,7 @@ const plant = new Schema(
   {
     plant_id: {
       type: Number,
+      unique: true,
     },
     name: {
       type: String,
