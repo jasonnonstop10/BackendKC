@@ -23,4 +23,9 @@ router.delete(
   auth.authMiddleware,
   tryCatch(kasetplanController.deleteKasetplan)
 );
+router.get(
+  "/porforio",
+  auth.authMiddleware,
+  tryCatch(kasetplanController.getporforio)
+);
 module.exports = router;

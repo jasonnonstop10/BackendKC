@@ -1,16 +1,6 @@
 const mongoose = require("mongoose");
-
+const Geojson = require("mongoose-geojson-schema");
 const Schema = mongoose.Schema;
-
-const geojson = {
-  type: {
-    type: String,
-    enum: ["Polygon"],
-  },
-  coordinates: {
-    type: [[[Number]]],
-  },
-};
 
 const asset = {
   plant_id: {
@@ -27,6 +17,9 @@ const asset = {
   day: {
     type: Number,
   },
+  price: {
+    type: Number,
+  },
   auto: {
     type: Boolean,
     enum: [true, false],
@@ -37,9 +30,7 @@ const kasetplan = new Schema(
     no: {
       type: Number,
     },
-    geojson: {
-      type: geojson,
-    },
+    geojson: mongoose.Schema.Types.Polygon,
     asset: {
       type: [asset],
     },

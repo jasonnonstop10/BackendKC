@@ -1,4 +1,4 @@
-const { postPlant, getPlant } = require("../functions/plant");
+const { postPlant, getPlant, getPlantfindById } = require("../functions/plant");
 exports.postPlant = async (req, res) => {
   const { userId } = req;
   const plant = await postPlant(req.body, userId);
@@ -11,4 +11,11 @@ exports.getPlant = async (req, res) => {
     data: plant,
   };
   res.send(obj);
+};
+
+exports.getPlantfindById = async (req, res) => {
+  const { plant_id } = req.query;
+  const { userId } = req;
+  const plant = await getPlantfindById(userId, plant_id);
+  res.send(plant);
 };
