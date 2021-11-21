@@ -15,10 +15,14 @@ module.exports.postKasetplan = async (input, user_id) => {
 };
 module.exports.getKasetplan = async (user_id) => {
   if (valid_id(user_id)) {
-    const kasetplan = await kasetplanModel.find({ u_id: user_id });
+    const kasetplan = await kasetplanModel.findOne({ u_id: user_id });
     /*kasetplan data { data: [kasetplan]} */
-    const data = { data: kasetplan };
-    return data;
+    // const data = { data: kasetplan };
+    if (!kasetplan) {
+      return {};
+    } else {
+      return kasetplan;
+    }
   } else {
     console.log(user_id);
     throw {

@@ -14,7 +14,7 @@ exports.getPlant = async (req, res) => {
 };
 
 exports.getPlantfindById = async (req, res) => {
-  const { plant_id } = req.query;
+  const { plant_id } = req.params;
   const { userId } = req;
   const plant = await getPlantfindById(userId, plant_id);
   res.send(plant);

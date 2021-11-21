@@ -9,4 +9,14 @@ router.get(
   auth.authMiddleware,
   tryCatch(rainController.getCumulativeRain)
 );
+router.get(
+  "/findOneCumulativeRain",
+  auth.authMiddleware,
+  tryCatch(rainController.findOneCumulativeRain)
+);
+router.get(
+  "/findOneWeeklyCumulativeRain",
+  auth.authMiddleware,
+  tryCatch(rainController.findOneWeeklyCumulativeRain)
+);
 module.exports = router;

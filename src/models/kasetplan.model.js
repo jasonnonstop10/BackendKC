@@ -13,22 +13,30 @@ const asset = {
   },
   volume: {
     type: Number,
+    default: 0
   },
   day: {
     type: Number,
+    default: 0
   },
   price: {
     type: Number,
+    default: 0
   },
   auto: {
     type: Boolean,
     enum: [true, false],
+    default: false
+  },
+  photo: {
+    type: String,
   },
 };
 const kasetplan = new Schema(
   {
     no: {
       type: Number,
+      default: 0
     },
     geojson: mongoose.Schema.Types.Polygon,
     asset: {
@@ -36,6 +44,7 @@ const kasetplan = new Schema(
     },
     esimate: {
       type: Number,
+      default: 0
     },
     uid: { type: mongoose.ObjectId },
     deleteAt: {
