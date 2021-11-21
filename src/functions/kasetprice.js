@@ -3,8 +3,14 @@ var FormData = require("form-data");
 const moment = require("moment");
 const https = require("https");
 require("dotenv").config();
+const redis = require("redis");
+const { promisify } = require("util");
+
+const redisClient = redis.createClient();
+const getAsync = promisify(redisClient.get).bind(redisClient);
 
 module.exports.getkasetpriceshow = async () => {
+  const redisCacheKey = "kasetchana:KasetpriceShow";
   const form = new FormData();
   form.append("email", process.env.USER);
   const options = {
@@ -16,6 +22,11 @@ module.exports.getkasetpriceshow = async () => {
     },
   };
   const kasetprice = await axios.request(options);
+  const cached = await getAsync(redisCacheKey);
+  if (cached) {
+    return JSON.parse(cached);
+  }
+  redisClient.set(redisCacheKey, JSON.stringify(response.data));
   return kasetprice.data;
 };
 

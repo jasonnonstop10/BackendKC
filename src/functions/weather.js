@@ -2,8 +2,16 @@ const axios = require("axios");
 const userAuth = require("../models/user.model");
 const mongoose = require("mongoose");
 const valid_id = mongoose.Types.ObjectId.isValid;
+
+const redis = require("redis");
+const { promisify } = require("util");
+
+const redisClient = redis.createClient();
+const getAsync = promisify(redisClient.get).bind(redisClient);
+
 module.exports.getWeather = async (input) => {
   if (valid_id(input)) {
+    const redisCacheKey = "kasetchana:weather";
     const user = await userAuth.findOne({ _id: input, isDeleted: false });
     let region = "";
     region = user.region;
@@ -18,6 +26,11 @@ module.exports.getWeather = async (input) => {
       },
     };
     const regionJS = await axios.request(options);
+    const cached = await getAsync(redisCacheKey);
+    if (cached) {
+      return JSON.parse(cached);
+    }
+    redisClient.set(redisCacheKey, JSON.stringify(regionJS.data));
     return regionJS.data;
   } else {
     throw {

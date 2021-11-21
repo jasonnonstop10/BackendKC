@@ -1,7 +1,13 @@
 const axios = require("axios");
 const userAuth = require("../models/user.model");
+const redis = require("redis");
+const { promisify } = require("util");
+
+const redisClient = redis.createClient();
+const getAsync = promisify(redisClient.get).bind(redisClient);
 
 module.exports.getRain = async (input) => {
+  const redisCacheKey = "kasetchana:RainALL";
   const kasetrain = await axios
     .get("http://data.tmd.go.th/api/Station/v1/", {
       params: {
@@ -10,29 +16,19 @@ module.exports.getRain = async (input) => {
         format: "json",
       },
     })
-    .then((response) => {
+    .then(async (response) => {
+      const cached = await getAsync(redisCacheKey);
+      if (cached) {
+        return JSON.parse(cached);
+      }
+      redisClient.set(redisCacheKey, JSON.stringify(response.data));
       return response.data;
     });
   // return response.data;
   return kasetrain;
 };
 module.exports.getCumulativeRain = async (input) => {
-  const kasetrain = await axios
-    .get("http://data.tmd.go.th/api/thailandMonthlyRainfall/v1/", {
-      params: {
-        uid: "u64kasetchana5",
-        ukey: "f99ecca3ac1fd0fa15328457ca3b2b01",
-        format: "json",
-        year: "2021",
-      },
-    })
-    .then((response) => {
-      return response.data;
-    });
-  return kasetrain;
-};
-
-module.exports.findOneCumulativeRain = async (input) => {
+  const redisCacheKey = "kasetchana:CumulativeRainALL";
   const kasetrain = await axios
     .get("http://data.tmd.go.th/api/thailandMonthlyRainfall/v1/", {
       params: {
@@ -43,6 +39,33 @@ module.exports.findOneCumulativeRain = async (input) => {
       },
     })
     .then(async (response) => {
+      const cached = await getAsync(redisCacheKey);
+      if (cached) {
+        return JSON.parse(cached);
+      }
+      redisClient.set(redisCacheKey, JSON.stringify(response.data));
+      return response.data;
+    });
+  return kasetrain;
+};
+
+module.exports.findOneCumulativeRain = async (input) => {
+  const redisCacheKey = "kasetchana:CumulativeRainFindOne";
+  const kasetrain = await axios
+    .get("http://data.tmd.go.th/api/thailandMonthlyRainfall/v1/", {
+      params: {
+        uid: "u64kasetchana5",
+        ukey: "f99ecca3ac1fd0fa15328457ca3b2b01",
+        format: "json",
+        year: "2021",
+      },
+    })
+    .then(async (response) => {
+      const cached = await getAsync(redisCacheKey);
+      if (cached) {
+        return JSON.parse(cached);
+      }
+      redisClient.set(redisCacheKey, JSON.stringify(response.data));
       const user = await userAuth.findOne({ _id: input, isDeleted: false });
 
       var options = {
