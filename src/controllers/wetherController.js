@@ -5,7 +5,6 @@ exports.getWeather = async (req, res, next) => {
     res.send(weather);
   } else {
     const { userId } = req;
-    console.log(userId);
     const weather = await getWeather(userId);
     res.send(weather);
   }

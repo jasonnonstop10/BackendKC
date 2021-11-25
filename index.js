@@ -8,6 +8,8 @@ const productRoute = require("./src/routes/product");
 const watchlistRoute = require("./src/routes/watchlist");
 const rainRoute = require("./src/routes/rain");
 const plantRoute = require("./src/routes/plant");
+const kasetPriceNewRoute = require("./src/routes/kaset-price-new");
+const portfolioRoute = require("./src/routes/portfolio");
 const connectToDatabase = require("./db.js");
 const app = express();
 const port = process.env.PORT || 3000;
@@ -25,7 +27,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(connectMongo);
 app.get("/", (req, res) => {
-  res.send("Hello World!");
+  res.send("Hello Test!");
 });
 app.use(userRoute);
 app.use(weatherRoute);
@@ -35,6 +37,8 @@ app.use(productRoute);
 app.use(watchlistRoute);
 app.use(rainRoute);
 app.use(plantRoute);
+app.use(kasetPriceNewRoute);
+app.use(portfolioRoute);
 app.use((err, req, res, next) => {
   console.log("ERROR: ", err);
   res.status(err.status || 500).json({

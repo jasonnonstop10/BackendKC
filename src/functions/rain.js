@@ -1,13 +1,7 @@
 const axios = require("axios");
 const userAuth = require("../models/user.model");
-const redis = require("redis");
-const { promisify } = require("util");
-
-const redisClient = redis.createClient();
-const getAsync = promisify(redisClient.get).bind(redisClient);
 
 module.exports.getRain = async (input) => {
-  const redisCacheKey = "kasetchana:RainALL";
   const kasetrain = await axios
     .get("http://data.tmd.go.th/api/Station/v1/", {
       params: {
@@ -16,19 +10,13 @@ module.exports.getRain = async (input) => {
         format: "json",
       },
     })
-    .then(async (response) => {
-      const cached = await getAsync(redisCacheKey);
-      if (cached) {
-        return JSON.parse(cached);
-      }
-      redisClient.set(redisCacheKey, JSON.stringify(response.data));
+    .then((response) => {
       return response.data;
     });
   // return response.data;
   return kasetrain;
 };
 module.exports.getCumulativeRain = async (input) => {
-  const redisCacheKey = "kasetchana:CumulativeRainALL";
   const kasetrain = await axios
     .get("http://data.tmd.go.th/api/thailandMonthlyRainfall/v1/", {
       params: {
@@ -38,19 +26,13 @@ module.exports.getCumulativeRain = async (input) => {
         year: "2021",
       },
     })
-    .then(async (response) => {
-      const cached = await getAsync(redisCacheKey);
-      if (cached) {
-        return JSON.parse(cached);
-      }
-      redisClient.set(redisCacheKey, JSON.stringify(response.data));
+    .then((response) => {
       return response.data;
     });
   return kasetrain;
 };
 
 module.exports.findOneCumulativeRain = async (input) => {
-  const redisCacheKey = "kasetchana:CumulativeRainFindOne";
   const kasetrain = await axios
     .get("http://data.tmd.go.th/api/thailandMonthlyRainfall/v1/", {
       params: {
@@ -60,12 +42,7 @@ module.exports.findOneCumulativeRain = async (input) => {
         year: "2021",
       },
     })
-    .then(async (response) => {
-      const cached = await getAsync(redisCacheKey);
-      if (cached) {
-        return JSON.parse(cached);
-      }
-      redisClient.set(redisCacheKey, JSON.stringify(response.data));
+    .then( async (response) => {
       const user = await userAuth.findOne({ _id: input, isDeleted: false });
 
       var options = {
@@ -74,17 +51,13 @@ module.exports.findOneCumulativeRain = async (input) => {
         params: { location: user.region, format: "json", u: "c" },
         headers: {
           "x-rapidapi-host": "yahoo-weather5.p.rapidapi.com",
-          "x-rapidapi-key":
-            "728f09f011mshaffebf4849d24fdp17df7ajsn51bb0e5660d6",
+          "x-rapidapi-key": "728f09f011mshaffebf4849d24fdp17df7ajsn51bb0e5660d6",
         },
       };
       const regionJS = await axios.request(options);
       let resData = {};
-      for (let item of response.data["StationMonthlyRainfall"]) {
-        if (
-          item.StationNameEnglish.toUpperCase().split(" ").join("") ===
-          regionJS.data["location"]["region"].toUpperCase().split(" ").join("")
-        ) {
+      for(let item of response.data['StationMonthlyRainfall']) {
+        if (item.StationNameEnglish.toUpperCase().split(' ').join('') === regionJS.data['location']['region'].toUpperCase().split(' ').join('')) {
           resData = item;
           break;
         }
@@ -104,7 +77,7 @@ module.exports.findOneWeeklyCumulativeRain = async (input) => {
         year: "2021",
       },
     })
-    .then(async (response) => {
+    .then( async (response) => {
       const user = await userAuth.findOne({ _id: input, isDeleted: false });
 
       var options = {
@@ -113,17 +86,13 @@ module.exports.findOneWeeklyCumulativeRain = async (input) => {
         params: { location: user.region, format: "json", u: "c" },
         headers: {
           "x-rapidapi-host": "yahoo-weather5.p.rapidapi.com",
-          "x-rapidapi-key":
-            "728f09f011mshaffebf4849d24fdp17df7ajsn51bb0e5660d6",
+          "x-rapidapi-key": "728f09f011mshaffebf4849d24fdp17df7ajsn51bb0e5660d6",
         },
       };
       const regionJS = await axios.request(options);
       let resData = {};
-      for (let item of response.data["Provinces"]) {
-        if (
-          item.ProvinceNameEng.toUpperCase().split(" ").join("") ===
-          regionJS.data["location"]["region"].toUpperCase().split(" ").join("")
-        ) {
+      for(let item of response.data['Provinces']) {
+        if (item.ProvinceNameEng.toUpperCase().split(' ').join('') === regionJS.data['location']['region'].toUpperCase().split(' ').join('')) {
           resData = item;
           break;
         }
