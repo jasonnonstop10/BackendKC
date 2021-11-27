@@ -9,6 +9,7 @@ router.get(
     auth.authMiddleware,
     tryCatch(kasetPriceController.findAll)
 );
+
 router.get(
     "/kaset-price",
     auth.authMiddleware,

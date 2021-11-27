@@ -15,8 +15,8 @@ aws.config.update({
   region: AWS_BUCKET_REGION,
 });
 const s3 = new aws.S3();
-async function uploadManyFile(files, userId, pathS3) {
-  if (mongoose.Types.ObjectId.isValid(userId)) {
+async function uploadManyFile(files, pathS3) {
+  // if (mongoose.Types.ObjectId.isValid(userId)) {
     const fileReturn = await Promise.all(
       files.map(async (item, index) => {
         const filePath = path.join(
@@ -26,7 +26,8 @@ async function uploadManyFile(files, userId, pathS3) {
           "uploads",
           item.filename
         );
-        const key = pathS3 + "/" + userId + "/" + item.filename + ".jpeg";
+        // const key = pathS3 + "/" + userId + "/" + item.filename + ".jpeg";
+        const key = pathS3 + "/" + item.filename + ".jpeg";
 
         var params = {
           Bucket: AWS_BUCKET_NAME,
@@ -50,12 +51,12 @@ async function uploadManyFile(files, userId, pathS3) {
     );
 
     return fileReturn;
-  } else {
-    throw {
-      message: "userid is not defined",
-      status: 404,
-    };
-  }
+  // } else {
+  //   throw {
+  //     message: "userid is not defined",
+  //     status: 404,
+  //   };
+  // }
 }
 
 exports.uploadManyFile = uploadManyFile;

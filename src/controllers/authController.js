@@ -75,8 +75,8 @@ exports.signup = async (req, res, next) => {
 };
 //post image
 exports.postImage = async (req, res, next) => {
-  const { userId, files } = req;
-  const result = await uploadManyFile(files, userId, "userResult");
+  const { files } = req;
+  const result = await uploadManyFile(files, "userResult");
   console.log(result);
   res.send(result);
 };
@@ -101,7 +101,10 @@ exports.updateUser = async (req, res, next) => {
     { name, region, pictureurl },
     { new: true, omitUndefined: true }
   );
-  console.log(req);
+  // delete req.body._id;
+
+  // const result = await users.findOneAndUpdate(userId, req.body);
+  console.log(result);
   res.send(result);
 };
 //delete user

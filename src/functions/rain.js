@@ -16,6 +16,23 @@ module.exports.getRain = async (input) => {
   // return response.data;
   return kasetrain;
 };
+
+module.exports.getRegion = async () => {
+  const kasetrain = await axios
+    .get("http://data.tmd.go.th/api/Station/v1/", {
+      params: {
+        uid: "u64kasetchana5",
+        ukey: "f99ecca3ac1fd0fa15328457ca3b2b01",
+        format: "json",
+      },
+    })
+    .then((response) => {
+      return response.data['Station'];
+    });
+  // return response.data;
+  return kasetrain;
+};
+
 module.exports.getCumulativeRain = async (input) => {
   const kasetrain = await axios
     .get("http://data.tmd.go.th/api/thailandMonthlyRainfall/v1/", {
@@ -57,7 +74,7 @@ module.exports.findOneCumulativeRain = async (input) => {
       const regionJS = await axios.request(options);
       let resData = {};
       for(let item of response.data['StationMonthlyRainfall']) {
-        if (item.StationNameEnglish.toUpperCase().split(' ').join('') === regionJS.data['location']['region'].toUpperCase().split(' ').join('')) {
+        if (item.StationNameEnglish.toUpperCase().split(' ').join('') === user.region.toUpperCase().split(' ').join('')) {
           resData = item;
           break;
         }

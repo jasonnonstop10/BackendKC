@@ -27,7 +27,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(connectMongo);
 app.get("/", (req, res) => {
-  res.send("Hello Test!");
+  res.send("Hello Test! 2");
 });
 app.use(userRoute);
 app.use(weatherRoute);

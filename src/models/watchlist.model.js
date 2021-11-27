@@ -2,11 +2,17 @@ const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
+const item = {
+  product_id: { type: String },
+  name: { type: String },
+  price: { type: Number }
+};
+
 const watchlist = new Schema(
   {
     no: { type: Number },
     watchlist_no: {
-      type: [String],
+      type: [item],
     },
     uid: { type: mongoose.ObjectId },
     deleteAt: {

@@ -15,7 +15,7 @@ router.post(
 );
 router.post(
   "/images",
-  auth.authMiddleware,
+  // auth.authMiddleware,
   multer({ dest: "uploads/" }).array("photo", 10),
   tryCatch(authController.postImage)
 );

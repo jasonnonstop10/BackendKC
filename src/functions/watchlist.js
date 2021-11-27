@@ -12,9 +12,8 @@ module.exports.postWatchlist = async (input, user_id) => {
 };
 module.exports.getWatchlist = async (user_id) => {
   if (valid_id(user_id)) {
-    return await watchlistModel.find({ u_id: user_id });
+    return await watchlistModel.findOne({ u_id: user_id });
   } else {
-    console.log(user_id);
     throw {
       message: "watchlist not found",
       status: 404,
@@ -24,11 +23,7 @@ module.exports.getWatchlist = async (user_id) => {
 module.exports.putWatchlist = async (payload, userId) => {
   const { no, watchlist_no } = payload;
   if (valid_id(userId)) {
-    const watchlist = await watchlistModel.findOneAndUpdate(
-      { no: no, u_id: userId },
-      { watchlist_no },
-      { new: true }
-    );
+    const watchlist = await watchlistModel.findOneAndUpdate(userId, payload);
     console.log(watchlist);
     return watchlist;
   } else {
