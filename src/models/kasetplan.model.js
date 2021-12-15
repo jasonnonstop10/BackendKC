@@ -5,11 +5,11 @@ const Schema = mongoose.Schema;
 const asset = {
   plant_id: {
     type: Number,
-    unique: true,
+    // unique: true,
   },
   name: {
     type: String,
-    unique: true,
+    // unique: true,
   },
   volume: {
     type: Number,
@@ -38,7 +38,7 @@ const kasetplan = new Schema(
       type: Number,
       default: 0
     },
-    geojson: mongoose.Schema.Types.Polygon,
+    // geojson: mongoose.Schema.Types.Polygon,
     asset: {
       type: [asset],
     },
@@ -54,6 +54,14 @@ const kasetplan = new Schema(
       type: Boolean,
       default: false,
     },
+    isActive: {
+      type: Boolean,
+      default: false,
+    },
+    planName: { type: String },
+    mapLat: { type: String, default: "0" },
+    mapLng: { type: String, default: "0" },
+    mapZoom: { type: Number, default: 15 },
   },
   {
     strict: false,

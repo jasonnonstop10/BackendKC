@@ -70,7 +70,7 @@ exports.signup = async (req, res, next) => {
     process.env.Secret_Key,
     { expiresIn: "30d" }
   );
-  console.log(res);
+  console.log(result._id);
   res.status(200).json({ result, token });
 };
 //post image

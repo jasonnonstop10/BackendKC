@@ -8,6 +8,7 @@ const product = new Schema(
     product_name: { type: String },
     category_name: { type: String },
     sell_type: { type: String },
+    product_price: { type: Number },
   },
   {
     strict: false,

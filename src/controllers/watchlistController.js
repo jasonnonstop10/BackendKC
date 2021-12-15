@@ -10,8 +10,8 @@ exports.postWatchlist = async (req, res) => {
   res.send(watchlist);
 };
 exports.getWatchlist = async (req, res) => {
-  const { userId } = req;
-  const watchlist = await getWatchlist(userId);
+  // const { userId } = req;
+  const watchlist = await getWatchlist(req);
   if(watchlist) {
     res.send(watchlist);
   } else {

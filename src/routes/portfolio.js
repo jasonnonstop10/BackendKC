@@ -10,6 +10,12 @@ router.get(
     tryCatch(portfolioController.findOne)
 );
 
+router.get(
+    "/getSummaryItems",
+    auth.authMiddleware,
+    tryCatch(portfolioController.getSummaryItems)
+);
+
 router.post(
     "/portfolio",
     auth.authMiddleware,

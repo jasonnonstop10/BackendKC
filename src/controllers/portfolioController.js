@@ -1,4 +1,4 @@
-const { create, update, fineOneData } = require("../functions/portfolio");
+const { create, update, fineOneData, getSummaryItems } = require("../functions/portfolio");
 
 exports.create = async (req, res) => {
     const { userId } = req;
@@ -20,5 +20,13 @@ exports.findOne = async (req, res) => {
     } else {
         res.send({});
     }
-    
+};
+
+exports.getSummaryItems = async (req, res) => {
+    const response = await getSummaryItems(req);
+    if (response) {
+        res.send([response]);
+    } else {
+        res.send(0);
+    }
 };

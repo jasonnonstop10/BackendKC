@@ -4,6 +4,7 @@ const {
   putKasetplan,
   deleteKasetplan,
   getporforio,
+  getOneKasetplan,
 } = require("../functions/kasetplan");
 exports.postKasetplan = async (req, res) => {
   const { userId } = req;
@@ -13,7 +14,19 @@ exports.postKasetplan = async (req, res) => {
 exports.getKasetplan = async (req, res) => {
   const { userId } = req;
   const kasetplan = await getKasetplan(userId);
-  res.send(kasetplan);
+  res.send({
+    data: kasetplan,
+    total: kasetplan.length
+  });
+};
+exports.getOneKasetplan = async (req, res) => {
+  const { userId } = req;
+  const kasetplan = await getOneKasetplan(userId);
+  if(kasetplan){
+    res.send(kasetplan);
+  } else {
+    res.send({});
+  }
 };
 exports.putKasetplan = async (req, res) => {
   const { userId } = req;

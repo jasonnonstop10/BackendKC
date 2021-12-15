@@ -10,6 +10,8 @@ const rainRoute = require("./src/routes/rain");
 const plantRoute = require("./src/routes/plant");
 const kasetPriceNewRoute = require("./src/routes/kaset-price-new");
 const portfolioRoute = require("./src/routes/portfolio");
+const portlogsRoute = require("./src/routes/port-log");
+const regionsRoute = require("./src/routes/region");
 const connectToDatabase = require("./db.js");
 const app = express();
 const port = process.env.PORT || 3000;
@@ -39,6 +41,8 @@ app.use(rainRoute);
 app.use(plantRoute);
 app.use(kasetPriceNewRoute);
 app.use(portfolioRoute);
+app.use(portlogsRoute);
+app.use(regionsRoute);
 app.use((err, req, res, next) => {
   console.log("ERROR: ", err);
   res.status(err.status || 500).json({

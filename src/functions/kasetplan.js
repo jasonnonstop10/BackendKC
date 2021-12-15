@@ -4,18 +4,32 @@ var geojsonArea = require("@mapbox/geojson-area");
 const valid_id = mongoose.Types.ObjectId.isValid;
 
 module.exports.postKasetplan = async (input, user_id) => {
-  const { no, geojson, asset, esimate } = input;
-  return await kasetplanModel.create({
-    no,
-    geojson,
-    asset,
-    esimate,
-    u_id: user_id,
-  });
+  delete input._id;
+  input.asset = [];
+  input.u_id = user_id;
+  return await kasetplanModel.create(input);
 };
 module.exports.getKasetplan = async (user_id) => {
   if (valid_id(user_id)) {
-    const kasetplan = await kasetplanModel.findOne({ u_id: user_id });
+    const kasetplan = await kasetplanModel.find({ u_id: user_id});
+    /*kasetplan data { data: [kasetplan]} */
+    // const data = { data: kasetplan };
+    if (!kasetplan) {
+      return {};
+    } else {
+      return kasetplan;
+    }
+  } else {
+    console.log(user_id);
+    throw {
+      message: "kasetplan not found",
+      status: 404,
+    };
+  }
+};
+module.exports.getOneKasetplan = async (user_id) => {
+  if (valid_id(user_id)) {
+    const kasetplan = await kasetplanModel.findOne({ u_id: user_id, isActive: true});
     /*kasetplan data { data: [kasetplan]} */
     // const data = { data: kasetplan };
     if (!kasetplan) {
@@ -32,11 +46,11 @@ module.exports.getKasetplan = async (user_id) => {
   }
 };
 module.exports.putKasetplan = async (payload, userId) => {
-  const { no, geojson, asset, esimate } = payload;
+  const { planName, asset, esimate, isActive, mapLat, mapLng, mapZoom } = payload;
   if (valid_id(userId)) {
     const kasetplan = await kasetplanModel.findOneAndUpdate(
-      { no: no, u_id: userId },
-      { geojson, asset, esimate, updatedAt: new Date() },
+      { planName: planName, u_id: userId },
+      { asset, esimate, isActive, mapLat, mapLng, mapZoom, updatedAt: new Date() },
       { new: true }
     );
     console.log(kasetplan);

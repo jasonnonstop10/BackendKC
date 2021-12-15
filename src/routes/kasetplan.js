@@ -8,6 +8,11 @@ router.get(
   auth.authMiddleware,
   tryCatch(kasetplanController.getKasetplan)
 );
+router.get(
+  "/getOneKasetplan",
+  auth.authMiddleware,
+  tryCatch(kasetplanController.getOneKasetplan)
+);
 router.post(
   "/kasetplan",
   auth.authMiddleware,

@@ -4,7 +4,7 @@ const router = express.Router();
 const auth = require("../middleware/auth");
 const { tryCatch } = require("../middleware/tryCatchController");
 router.get("/rain", auth.authMiddleware, tryCatch(rainController.getRain));
-router.get("/getRegion", tryCatch(rainController.getRegion));
+// router.get("/getRegion", tryCatch(rainController.getRegion));
 router.get(
   "/cumulativerain",
   auth.authMiddleware,
